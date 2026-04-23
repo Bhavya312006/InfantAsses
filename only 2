@@ -1,0 +1,110 @@
+public class Calculator {
+
+    public int add(int a, int b) {
+        return a + b;
+    }
+
+    public int subtract(int a, int b) {
+        return a - b;
+    }
+
+    public int multiply(int a, int b) {
+        return a * b;
+    }
+
+    public int divide(int a, int b) {
+        if (b == 0) throw new IllegalArgumentException("Divide by zero");
+        return a / b;
+    }
+}
+
+
+
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+public class CalculatorTest {
+
+    Calculator c = new Calculator();
+
+    @Test // ✅ PASS
+    void testAdd() {
+        assertEquals(10, c.add(5, 5));
+    }
+
+    @Test // ✅ PASS
+    void testSubtract() {
+        assertEquals(2, c.subtract(5, 3));
+    }
+
+    @Test // ❌ FAIL
+    void testMultiply() {
+        assertEquals(20, c.multiply(3, 5)); // wrong
+    }
+
+    @Test // ❌ FAIL
+    void testDivide() {
+        assertEquals(3, c.divide(10, 2)); // wrong
+    }
+}
+
+
+
+public class BankAccount {
+
+    private double balance;
+
+    public BankAccount(double balance) {
+        this.balance = balance;
+    }
+
+    public double getBalance() {
+        return balance;
+    }
+
+    public void deposit(double amount) {
+        if (amount > 0)
+            balance += amount;
+    }
+
+    public void withdraw(double amount) {
+        if (amount > 0 && amount <= balance)
+            balance -= amount;
+    }
+}
+
+
+
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+public class BankAccountTest {
+
+    @Test // ✅ PASS
+    void testDeposit() {
+        BankAccount acc = new BankAccount(100);
+        acc.deposit(50);
+        assertEquals(150, acc.getBalance());
+    }
+
+    @Test // ✅ PASS
+    void testWithdraw() {
+        BankAccount acc = new BankAccount(100);
+        acc.withdraw(30);
+        assertEquals(70, acc.getBalance());
+    }
+
+    @Test // ❌ FAIL
+    void testWrongBalance() {
+        BankAccount acc = new BankAccount(100);
+        acc.deposit(50);
+        assertEquals(120, acc.getBalance()); // wrong
+    }
+
+    @Test // ❌ FAIL
+    void testOverWithdraw() {
+        BankAccount acc = new BankAccount(100);
+        acc.withdraw(200);
+        assertEquals(0, acc.getBalance()); // wrong
+    }
+}
